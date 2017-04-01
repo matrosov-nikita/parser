@@ -39,7 +39,7 @@ class DBHelper {
 			}
 		}
 
-		return this.db.collection(COLLECTION_NAME).remove(query)
+		return this.db.collection(COLLECTION_NAME).remove(query);
 	}
 
 	closeConnection() {

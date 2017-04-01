@@ -39,12 +39,7 @@ class ParserApi {
 	getFilters(parser) {
 		return Object.keys(parser)
 				.filter(prop => parser[prop].selector)
-				.map(prop => {
-					return {
-						fieldName: prop,
-						rule: parser[prop]
-					}
-				});
+				.map(prop => ({ fieldName: prop, rule: parser[prop]}));
 	}
 
 	loadCategory(category): Promise<{name: string, content: string}> {

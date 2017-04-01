@@ -1,0 +1,30 @@
+{
+  "name": "ivanovo_food_parser",
+  "version": "1.0.0",
+  "description": "Parse delivery Ivanovo portals ",
+  "main": "index.js",
+  "scripts": {
+    "start": "node_modules/.bin/ts-node index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "parse",
+    "ivanovo",
+    "food",
+    "delivery"
+  ],
+  "author": "Nikita Matrosov",
+  "license": "ISC",
+  "dependencies": {
+    "@types/cheerio": "^0.22.1",
+    "@types/es6-promise": "0.0.32",
+    "@types/mongodb": "^2.1.41",
+    "@types/node": "^7.0.12",
+    "@types/request-promise": "^4.1.33",
+    "cheerio": "^0.22.0",
+    "mongodb": "^2.2.25",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.0",
+    "ts-node": "^3.0.2"
+  }
+}

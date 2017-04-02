@@ -1,4 +1,3 @@
-import { Parser, ItemRule } from '../../types';
 import * as cheerio from 'cheerio';
 
 class SauriParser implements Parser {
@@ -7,8 +6,7 @@ class SauriParser implements Parser {
 
 	categoryRule  = {
 		linkSelector: ".nav_left a",
-		itemSelector: ".product_list li",
-		handler: link => ({ link: this.address + link.attr('href'), name: link.text() })
+		itemSelector: ".product_list li"
 	}
 
 	weight: ItemRule =  {
@@ -32,12 +30,12 @@ class SauriParser implements Parser {
 
 	link: ItemRule = {
 		selector: ".pic a",
-		handler: value => this.address + value.attr('href')
+		handler: value => value.attr('href')
 	}
 
 	image: ItemRule = {
 		selector: ".pic a img",
-		handler: value => this.address + value.attr('src')
+		handler: value => value.attr('src')
 	}
 }
 

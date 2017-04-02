@@ -6,6 +6,7 @@ const path = require('path');
 const parserApi = new ParserApi();
 
 class Main {
+
 	run() {
 		let parsersPath = path.join(__dirname, '../parsers');
 		let folders: string[] = fs.readdirSync(parsersPath, { encoding: 'utf8' });
@@ -19,7 +20,7 @@ class Main {
 
 	parse(parser) {
 		return parserApi.load(parser.address)
-			.then(mainPageContent => parserApi.parseCategory(mainPageContent, parser.categoryRule))
+			.then(mainPageContent => parserApi.parseCategory(mainPageContent, parser.address, parser.categoryRule))
 			.then(categories=> {
 				return Promise.all(categories.map(parserApi.loadCategory.bind(parserApi)));
 			})
@@ -33,7 +34,7 @@ class Main {
 				let filters = parserApi.getFilters(parser);
 
 				return parsedCategories.map(category => {
-					return [].map.call(category.items, item => parserApi.parseItem(item, filters, category.name));
+					return [].map.call(category.items, item => parserApi.parseItem(item, filters, category.name, parser.address));
 				});
 			})
 			.then(items => {

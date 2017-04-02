@@ -1,7 +1,7 @@
 import * as mongodb from 'mongodb';
 const mongoClient = mongodb.MongoClient;
 const MONGODB_URL = 'mongodb://localhost:27017/ivanovofood';
-const COLLECTION_NAME = "food";
+const COLLECTION_NAME = "goods";
 
 class DBHelper {
 	db: mongodb.Db;

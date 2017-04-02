@@ -2,17 +2,6 @@
 import * as rp from 'request-promise';
 import * as cheerio from 'cheerio';
 import Item from './libs/Item';
-import { CategoryRule } from './types';
-
-const CategoryNameMap = {
-	"роллы": /ролл/i,
-	"пицца": /пицц/i,
-	"лапша": /лапш/i,
-	"паста": /паст/i,
-	"супы": /суп/i,
-	"салаты": /салат/i,
-	"напитки": /напит/i
-}
 
 class ParserApi {
 
@@ -20,17 +9,26 @@ class ParserApi {
 		return rp(url);
 	}
 
+	changeLink(link: string, address: string): string {
+		if (link[0] === '/') {
+			link = address + link;
+		}
 
-	parseCategory(content: string, categoryRule: CategoryRule) {
+		return link;
+	}
+
+	parseCategory(content: string, address: string, categoryRule: CategoryRule): Category[] {
 		let $ = cheerio.load(content);
 		let links = $(categoryRule.linkSelector);
 		return [].map.call(links, link => {
 			if (categoryRule.handler) {
-				return categoryRule.handler($(link));
+				let category: Category  = categoryRule.handler($(link));
+				category.link = this.changeLink(category.link, address);
+				return category;
 			}
 
 			return {
-				link: $(link).attr('href'),
+				link: this.changeLink($(link).attr('href'), address),
 				name: $(link).text()
 			}
 		});
@@ -52,15 +50,8 @@ class ParserApi {
 		return $(selector);
 	}
 
-	parseItem(itemContent: any, filters: any, category: any): Item {
+	parseItem(itemContent: any, filters: any, category: any, address: string): Item {
 		let item = new Item();
-
-		Object.keys(CategoryNameMap).forEach(name => {
-			if (CategoryNameMap[name].test(category)) {
-				item.category.push(name);
-			}
-		});
-
 		let $ = cheerio.load(itemContent);
 
 		filters.forEach(filter => {
@@ -68,6 +59,11 @@ class ParserApi {
 			let handler = filter.rule.handler;
 			item[filter.fieldName] = (handler) ? handler(itemVal, category) : itemVal.text();
 		});
+
+		item.findCategory(category);
+
+		item.link = this.changeLink(item.link, address);
+		item.image = this.changeLink(item.image, address);
 
 		return item;
 	}

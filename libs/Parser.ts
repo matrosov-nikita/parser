@@ -38,6 +38,7 @@ class Main {
 				});
 			})
 			.then(items => {
+				console.log(items);
 				return Utils.flattenFirstLevel(items);
 			});
 	}

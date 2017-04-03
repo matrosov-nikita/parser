@@ -16,7 +16,7 @@ class SauriParser implements Parser {
 
 	price: ItemRule =  {
 		selector: ".description .price",
-		handler: value => value.text().trim().split(' ')[0]
+		handler: value => parseInt(value.text().trim())
 	}
 
 	name: ItemRule =  {
